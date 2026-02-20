@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# claude-skills installer
+# claude-research-skills installer
 # Installs slash commands, checks dependencies, and verifies skill installation.
 #
 # Usage:
@@ -15,7 +15,7 @@ COMMANDS_DIR="$HOME/.claude/commands"
 
 MODE="${1:-full}"
 
-echo "=== claude-skills installer ==="
+echo "=== claude-research-skills installer ==="
 echo ""
 
 # --- 1. Verify skills are installed ---
@@ -51,7 +51,7 @@ fi
 if [ "$SKILLS_MISSING" -gt 0 ]; then
     echo ""
     echo "  $SKILLS_FOUND/30 skills installed, $SKILLS_MISSING missing."
-    echo "  Install with: npx skills add lingzhi227/claude-skills -g -a claude-code"
+    echo "  Install with: npx skills add lingzhi227/claude-research-skills -g -a claude-code"
     echo ""
 else
     echo "  [+] All 30 skills installed."

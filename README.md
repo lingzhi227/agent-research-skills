@@ -1,4 +1,4 @@
-# claude-skills
+# claude-research-skills
 
 30 skills for [Claude Code](https://claude.ai/code) covering the full academic research paper lifecycle — from literature search to slide generation.
 
@@ -9,7 +9,7 @@ Extracted from 17 GitHub repos studying LLM-agent-driven research automation. Se
 ### One-line install
 
 ```bash
-npx skills add lingzhi227/claude-skills -g -a claude-code
+npx skills add lingzhi227/claude-research-skills -g -a claude-code
 ```
 
 > Use the `-g` (global) flag. Scripts use `~/.claude/skills/` paths that require global installation.
@@ -17,9 +17,9 @@ npx skills add lingzhi227/claude-skills -g -a claude-code
 ### Post-install setup
 
 ```bash
-git clone https://github.com/lingzhi227/claude-skills.git /tmp/claude-skills
-/tmp/claude-skills/install.sh
-rm -rf /tmp/claude-skills
+git clone https://github.com/lingzhi227/claude-research-skills.git /tmp/claude-research-skills
+/tmp/claude-research-skills/install.sh
+rm -rf /tmp/claude-research-skills
 ```
 
 This installs slash commands, checks Python dependencies, and verifies script syntax.
