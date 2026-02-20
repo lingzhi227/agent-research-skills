@@ -1,12 +1,3 @@
----
-name: deep-research
-description: >
-  This skill conducts systematic academic literature reviews when the user
-  wants to research a topic, do a literature review, find papers, survey
-  a field, or deep dive into a research area. Produces structured notes,
-  curated paper databases, and synthesized reports in 6 phases.
----
-
 # Deep Research Skill
 
 ## Trigger
@@ -21,17 +12,7 @@ Activate this skill when the user wants to:
 This skill conducts systematic academic literature reviews in 6 phases, producing structured notes, a curated paper database, and a synthesized final report. Output is organized **by phase** for clarity.
 
 **Installation**: `~/.claude/skills/deep-research/` — scripts, references, and this skill definition.
-**Output**: `~/deep-research-output/{slug}/`
-
-## User Configuration
-
-Customize these paths to match your setup:
-
-| Setting | Default | Description |
-|---------|---------|-------------|
-| **Output directory** | `~/deep-research-output/` | Where research outputs are saved |
-| **API keys file** | `~/keys.md` | File containing `S2_API_Key` for Semantic Scholar |
-| **paper_finder** (optional) | *(not installed)* | External tool for searching conference papers. See [paper_finder setup](#paper_finder-setup) |
+**Output**: `.//Users/lingzhi/Code/deep-research-output/{slug}/` relative to the current working directory.
 
 ## Paper Quality Policy
 
@@ -52,17 +33,15 @@ Customize these paths to match your setup:
 
 ## Search Tools (by priority)
 
-### 1. paper_finder (primary — conference papers only, optional)
+### 1. paper_finder (primary — conference papers only)
+**Location**: `/Users/lingzhi/Code/documents/tool/paper_finder/paper_finder.py`
 
-> **Optional external tool.** If not installed, skip to Semantic Scholar.
-
-<a id="paper_finder-setup"></a>
-**Setup**: Clone the paper_finder repo and set the path in your config above. It searches ai-paper-finder.info (HuggingFace Space) for published conference papers. Supports filtering by conference + year. Outputs JSONL with BibTeX.
+Searches ai-paper-finder.info (HuggingFace Space) for published conference papers. Supports filtering by conference + year. Outputs JSONL with BibTeX.
 
 ```bash
-python <paper_finder_path>/paper_finder.py --mode scrape --config <config.yaml>
-python <paper_finder_path>/paper_finder.py --mode download --jsonl <results.jsonl>
-python <paper_finder_path>/paper_finder.py --list-venues
+python /Users/lingzhi/Code/documents/tool/paper_finder/paper_finder.py --mode scrape --config <config.yaml>
+python /Users/lingzhi/Code/documents/tool/paper_finder/paper_finder.py --mode download --jsonl <results.jsonl>
+python /Users/lingzhi/Code/documents/tool/paper_finder/paper_finder.py --list-venues
 ```
 
 Config example:
@@ -75,16 +54,16 @@ searches:
       iclr: [2024, 2025, 2026]
       icml: [2024, 2025]
 output:
-  root: ~/deep-research-output/{slug}/phase1_frontier/search_results
+  root: /Users/lingzhi/Code/deep-research-output/{slug}/phase1_frontier/search_results
   overwrite: true
 ```
 
 ### 2. search_semantic_scholar.py (supplementary — citation data + broader coverage)
-**Location**: `~/.claude/skills/deep-research/scripts/search_semantic_scholar.py`
-Supports `--peer-reviewed-only` and `--top-conferences` filters. API key from your configured keys file (field `S2_API_Key`).
+**Location**: `/Users/lingzhi/.claude/skills/deep-research/scripts/search_semantic_scholar.py`
+Supports `--peer-reviewed-only` and `--top-conferences` filters. API key: `/Users/lingzhi/Code/keys.md` (field `S2_API_Key`)
 
 ### 3. search_arxiv.py (supplementary — latest preprints)
-**Location**: `~/.claude/skills/deep-research/scripts/search_arxiv.py`
+**Location**: `/Users/lingzhi/.claude/skills/deep-research/scripts/search_arxiv.py`
 For searching recent papers not yet published at conferences. Mark citations with `(preprint)`.
 
 ### Other Scripts
@@ -106,7 +85,7 @@ For searching recent papers not yet published at conferences. Mark citations wit
 ### Phase 1: Frontier
 Search the **latest** conference proceedings and preprints to understand current trends.
 1. Write `phase1_frontier/paper_finder_config.yaml` targeting latest 1-2 years
-2. Run paper_finder scrape (if available)
+2. Run paper_finder scrape
 3. WebSearch for latest accepted paper lists
 4. Identify trending directions, key breakthroughs
 → Output: `phase1_frontier/frontier.md`, `phase1_frontier/search_results/`
@@ -115,8 +94,8 @@ Search the **latest** conference proceedings and preprints to understand current
 Build a comprehensive landscape with broader time range. Target **35-80 papers** after filtering.
 1. Write `phase2_survey/paper_finder_config.yaml` covering 2023-2025
 2. Run paper_finder + Semantic Scholar + arXiv
-3. Merge all results: `python ~/.claude/skills/deep-research/scripts/paper_db.py merge`
-4. Filter to 35-80 most relevant: `python ~/.claude/skills/deep-research/scripts/paper_db.py filter --min-score 0.80 --max-papers 70`
+3. Merge all results: `python /Users/lingzhi/.claude/skills/deep-research/scripts/paper_db.py merge`
+4. Filter to 35-80 most relevant: `python /Users/lingzhi/.claude/skills/deep-research/scripts/paper_db.py filter --min-score 0.80 --max-papers 70`
 5. Cluster by theme, write survey notes
 → Output: `phase2_survey/survey.md`, `phase2_survey/search_results/`, `paper_db.jsonl`
 
@@ -176,6 +155,10 @@ output/{topic-slug}/
 
 ## References
 
-- `~/.claude/skills/deep-research/references/workflow-phases.md` — Detailed 6-phase methodology
-- `~/.claude/skills/deep-research/references/note-format.md` — Note templates, BibTeX format, report structure
-- `~/.claude/skills/deep-research/references/api-reference.md` — arXiv, Semantic Scholar, ar5iv API guide
+- `/Users/lingzhi/.claude/skills/deep-research/references/workflow-phases.md` — Detailed 6-phase methodology
+- `/Users/lingzhi/.claude/skills/deep-research/references/note-format.md` — Note templates, BibTeX format, report structure
+- `/Users/lingzhi/.claude/skills/deep-research/references/api-reference.md` — arXiv, Semantic Scholar, ar5iv API guide
+
+## Related Skills
+- Downstream: [literature-search](../literature-search/), [literature-review](../literature-review/), [citation-management](../citation-management/)
+- See also: [novelty-assessment](../novelty-assessment/), [survey-generation](../survey-generation/)

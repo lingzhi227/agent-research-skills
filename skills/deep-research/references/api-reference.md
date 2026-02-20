@@ -46,7 +46,7 @@ http://export.arxiv.org/api/query
 
 ### Script Usage
 ```bash
-python ~/.claude/skills/deep-research/scripts/search_arxiv.py \
+python /Users/lingzhi/.claude/skills/deep-research/scripts/search_arxiv.py \
   --query "long context reasoning LLM" \
   --max-results 50 \
   --categories cs.AI cs.CL \
@@ -71,7 +71,7 @@ https://api.semanticscholar.org/graph/v1
 ```
 
 ### Authentication
-- API key from your configured keys file (field `S2_API_Key`)
+- API key from `/Users/lingzhi/Code/keys.md` (field `S2_API_Key`)
 - Header: `x-api-key: <key>`
 - Without key: 100 requests/5 min. With key: 1 request/second sustained.
 
@@ -130,7 +130,7 @@ externalIds,url,publicationDate,tldr,isOpenAccess,openAccessPdf
 
 ### Script Usage
 ```bash
-python ~/.claude/skills/deep-research/scripts/search_semantic_scholar.py \
+python /Users/lingzhi/.claude/skills/deep-research/scripts/search_semantic_scholar.py \
   --query "long horizon reasoning LLM agent" \
   --max-results 100 \
   --min-citations 10 \
@@ -224,13 +224,13 @@ This extracts text directly — no scripts needed for individual papers.
 ### Batch PDF Processing
 For multiple papers, use the scripts:
 ```bash
-python ~/.claude/skills/deep-research/scripts/download_papers.py \
+python /Users/lingzhi/.claude/skills/deep-research/scripts/download_papers.py \
   --jsonl paper_db.jsonl \
   --output-dir papers/ \
   --max-downloads 20 \
   --sort-by-citations
 
-python ~/.claude/skills/deep-research/scripts/extract_pdf.py \
+python /Users/lingzhi/.claude/skills/deep-research/scripts/pdf_extract.py \
   --input papers/ \
   --output-dir texts/ \
   --sections

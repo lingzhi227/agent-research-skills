@@ -1,6 +1,6 @@
 # Research Workflow: Detailed Phase Guide
 
-All outputs are organized by phase under the configured output directory: `~/deep-research-output/{slug}/`.
+All outputs are organized by phase under `/Users/lingzhi/Code/deep-research-output/{slug}/`.
 
 ## Phase 1: Frontier
 
@@ -23,11 +23,11 @@ Identify the **latest breakthroughs** and trending directions. Understand what t
          iclr: [2025, 2026]
          acl: [2025]
    output:
-     root: ~/deep-research-output/{slug}/phase1_frontier/search_results
+     root: /Users/lingzhi/Code/deep-research-output/{slug}/phase1_frontier/search_results
      overwrite: true
    ```
 
-2. **Run paper_finder** (if available): `python <paper_finder_path>/paper_finder.py --mode scrape --config phase1_frontier/paper_finder_config.yaml`
+2. **Run paper_finder**: `python /Users/lingzhi/Code/documents/tool/paper_finder/paper_finder.py --mode scrape --config phase1_frontier/paper_finder_config.yaml`
 
 3. **WebSearch for accepted papers**: "{topic} NeurIPS 2025 accepted", "{topic} ICML 2025 oral"
 
@@ -61,14 +61,14 @@ Build a comprehensive landscape. Discover **35-80 relevant papers** spanning rec
 
 3. **Merge and deduplicate**:
    ```
-   python ~/.claude/skills/deep-research/scripts/paper_db.py merge \
+   python /Users/lingzhi/.claude/skills/deep-research/scripts/paper_db.py merge \
      --inputs phase1_frontier/search_results/*.jsonl phase2_survey/search_results/*.jsonl \
      --output paper_db.jsonl
    ```
 
 4. **Filter to 35-80 papers** (critical step):
    ```
-   python ~/.claude/skills/deep-research/scripts/paper_db.py filter \
+   python /Users/lingzhi/.claude/skills/deep-research/scripts/paper_db.py filter \
      --input paper_db.jsonl -o paper_db.jsonl \
      --min-score 0.80 --max-papers 70 \
      --keywords agent bio drug protein reason plan
@@ -104,7 +104,7 @@ Write selection with rationale → `phase3_deep_dive/selection.md`
 
 ### Reading Each Paper
 
-1. **Download PDFs**: `python ~/.claude/skills/deep-research/scripts/download_papers.py --jsonl paper_db.jsonl --output-dir phase3_deep_dive/papers/ --sort-by-citations --max-downloads 15`
+1. **Download PDFs**: `python /Users/lingzhi/.claude/skills/deep-research/scripts/download_papers.py --jsonl paper_db.jsonl --output-dir phase3_deep_dive/papers/ --sort-by-citations --max-downloads 15`
 
 2. **Read**: `Read phase3_deep_dive/papers/{file}.pdf` or `WebFetch https://ar5iv.labs.arxiv.org/html/{arxiv_id}`
 
@@ -183,9 +183,9 @@ Assemble all research into a coherent, well-cited report.
 1. **Outline**: Draft section outline
 2. **Assemble**: Pull content from all phase notes
 3. **Citations**: Ensure every claim has `[@key]`
-4. **BibTeX**: `python ~/.claude/skills/deep-research/scripts/bibtex_manager.py --jsonl paper_db.jsonl --output phase6_report/references.bib`
-5. **Compile**: `python ~/.claude/skills/deep-research/scripts/compile_report.py --topic-dir ~/deep-research-output/{slug}/`
-6. **Stats**: `python ~/.claude/skills/deep-research/scripts/paper_db.py stats --input paper_db.jsonl`
+4. **BibTeX**: `python /Users/lingzhi/.claude/skills/deep-research/scripts/bibtex_manager.py --jsonl paper_db.jsonl --output phase6_report/references.bib`
+5. **Compile**: `python /Users/lingzhi/.claude/skills/deep-research/scripts/compile_report.py --topic-dir /Users/lingzhi/Code/deep-research-output/{slug}/`
+6. **Stats**: `python /Users/lingzhi/.claude/skills/deep-research/scripts/paper_db.py stats --input paper_db.jsonl`
 
 ### Output
 - `phase6_report/report.md` — Final report (2000-5000 words)
