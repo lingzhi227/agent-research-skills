@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.0] - 2026-02-23
+
+### Added
+
+- **github-research skill**: 6-phase pipeline for discovering, evaluating, and deeply analyzing GitHub repositories related to a research topic
+  - Phase 1: Intake — extract refs, URLs, keywords from deep-research output
+  - Phase 2: Discovery — multi-source GitHub search (repos, code, Papers With Code)
+  - Phase 3: Filtering — score, rank, and select top repos
+  - Phase 4: Deep Dive — clone and deeply analyze code structure, dependencies, implementations
+  - Phase 5: Analysis — cross-repo comparison matrix, technique mapping, gap analysis
+  - Phase 6: Blueprint — integration plan, reusable components catalog
+- **13 Python scripts** for github-research: `extract_research_refs.py`, `search_github.py`, `search_github_code.py`, `search_paperswithcode.py`, `repo_db.py`, `repo_metadata.py`, `repo_readme_fetch.py`, `clone_repo.py`, `analyze_repo_structure.py`, `extract_dependencies.py`, `find_implementations.py`, `compare_repos.py`, `compile_github_report.py`
+- **Phase guide reference** (`references/phase-guide.md`) with search strategy matrix and per-repo analysis templates
+
 ## [1.0.0] - 2026-02-20
 
 ### Added

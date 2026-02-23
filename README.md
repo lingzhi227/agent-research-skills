@@ -1,6 +1,6 @@
 # agent-research-skills
 
-30 skills for [Claude Code](https://claude.ai/code) covering the full academic research paper lifecycle — from literature search to slide generation.
+31 skills for [Claude Code](https://claude.ai/code) covering the full academic research paper lifecycle — from literature search to slide generation — plus GitHub repository analysis for research topics.
 
 Extracted from 17 GitHub repos studying LLM-agent-driven research automation. See [SKILLS_DESIGN.md](/Users/lingzhi/Code/research-engine/SKILLS_DESIGN.md) for the original design specifications.
 
@@ -40,12 +40,13 @@ This installs slash commands, checks Python dependencies, and verifies script sy
 
 2. **Output directory**: Deep research outputs go to `~/deep-research-output/` by default.
 
-## Available Skills (30)
+## Available Skills (31)
 
 ### Phase 0: Research Discovery & Planning
 
 | Skill | Description | Scripts |
 |-------|-------------|---------|
+| **[github-research](skills/github-research/)** | 6-phase GitHub repo discovery, analysis, and integration planning for research topics | 13 scripts: search, clone, analyze structure/deps/impls, compare, compile report |
 | **[deep-research](skills/deep-research/)** | 6-phase systematic literature survey (frontier → survey → deep dive → code → synthesis → report) | 7 scripts: search APIs, PDF extraction, paper DB, BibTeX, report compilation |
 | **[literature-search](skills/literature-search/)** | Multi-source academic search (Semantic Scholar, arXiv, OpenAlex, CrossRef) with ranking | 4 scripts: `search_crossref.py`, `download_arxiv_source.py`, `search_openalex.py` + shared |
 | **[literature-review](skills/literature-review/)** | Multi-perspective dialogue simulation with expert personas for grounded literature review | Shares search scripts |
@@ -118,6 +119,7 @@ This installs slash commands, checks Python dependencies, and verifies script sy
 ### Natural language (skills activate automatically)
 
 ```
+"Analyze GitHub repos for multi-agent coordination research"
 "Do a literature review on protein folding with LLMs"
 "Write the Methods section of my paper"
 "Generate a comparison table from results.json"
@@ -130,6 +132,12 @@ This installs slash commands, checks Python dependencies, and verifies script sy
 ### Direct script usage
 
 ```bash
+# Search GitHub repos for a research topic
+python ~/.claude/skills/github-research/scripts/search_github.py --query "multi-agent LLM coordination" --max-results 50 --output repos.jsonl
+
+# Analyze a cloned repo's structure
+python ~/.claude/skills/github-research/scripts/analyze_repo_structure.py --repo-dir ./my-repo --output analysis.json
+
 # Search literature
 python ~/.claude/skills/literature-search/scripts/search_crossref.py --query "attention mechanism" --rows 10
 
