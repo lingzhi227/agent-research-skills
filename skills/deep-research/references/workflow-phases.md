@@ -1,5 +1,7 @@
 # Research Workflow: Detailed Phase Guide
 
+**CRITICAL: Execute ALL 6 phases in strict order (1→2→3→4→5→6). NEVER skip any phase. Each phase must produce its required output files before the next phase can begin.**
+
 All outputs are organized by phase under `/Users/lingzhi/Code/deep-research-output/{slug}/`.
 
 ## Phase 1: Frontier
@@ -39,6 +41,9 @@ Identify the **latest breakthroughs** and trending directions. Understand what t
 ### Quality Checks
 - At least 10 papers from the latest 1-2 conference cycles
 - Clear picture of what's "hot" right now
+
+### Gate → Phase 2
+Verify `phase1_frontier/frontier.md` exists and contains ≥10 papers before proceeding.
 
 ---
 
@@ -83,9 +88,14 @@ Build a comprehensive landscape. Discover **35-80 relevant papers** spanning rec
 - At least 3 distinct themes identified
 - Mix of recent and foundational papers
 
+### Gate → Phase 3
+Verify `phase2_survey/survey.md` exists AND `paper_db.jsonl` contains 35-80 papers before proceeding.
+
 ---
 
-## Phase 3: Deep Dive
+## Phase 3: Deep Dive ⚠️ DO NOT SKIP
+
+**This phase is MANDATORY. Without deep reading, Phase 5 synthesis will be superficial and based only on abstracts.**
 
 ### Objective
 Read 8-15 top papers in detail, extracting methodology, results, and connections.
@@ -119,9 +129,14 @@ Write selection with rationale → `phase3_deep_dive/selection.md`
 
 4. **Write notes** → `phase3_deep_dive/deep_dive.md`
 
+### Gate → Phase 4
+Verify `phase3_deep_dive/selection.md` AND `phase3_deep_dive/deep_dive.md` exist. `deep_dive.md` must contain detailed notes for ≥8 papers with methodology and experiments sections filled in. Abstract-only summaries do NOT count.
+
 ---
 
-## Phase 4: Code & Tools
+## Phase 4: Code & Tools ⚠️ DO NOT SKIP
+
+**This phase is MANDATORY. It maps the open-source ecosystem which informs the synthesis.**
 
 ### Objective
 Map the open-source ecosystem: implementations, frameworks, benchmarks, datasets.
@@ -133,11 +148,16 @@ Map the open-source ecosystem: implementations, frameworks, benchmarks, datasets
 1. Extract GitHub URLs from deep-dive papers
 2. WebSearch: "site:github.com {method name}", "site:paperswithcode.com {topic}"
 3. Evaluate: Stars, recency, documentation quality
-4. Write → `phase4_code/code_repos.md`
+4. Write → `phase4_code/code_repos.md` (must contain ≥3 repositories)
+
+### Gate → Phase 5
+Verify `phase4_code/code_repos.md` exists and contains ≥3 repositories with metadata.
 
 ---
 
-## Phase 5: Synthesis
+## Phase 5: Synthesis (REQUIRES Phase 3 + 4 complete)
+
+**Before starting Phase 5**: Read `phase3_deep_dive/deep_dive.md` and `phase4_code/code_repos.md` to ensure they exist and are substantive. If either is missing or empty, go back and complete the missing phase first.
 
 ### Objective
 Connect insights across papers. Build taxonomy, identify gaps.
@@ -156,9 +176,21 @@ Connect insights across papers. Build taxonomy, identify gaps.
 - `phase5_synthesis/synthesis.md` — Taxonomy, tables, timeline
 - `phase5_synthesis/gaps.md` — Gap analysis and future directions
 
+### Gate → Phase 6
+Verify `phase5_synthesis/synthesis.md` AND `phase5_synthesis/gaps.md` exist.
+
 ---
 
-## Phase 6: Compilation
+## Phase 6: Compilation (REQUIRES Phase 1-5 complete)
+
+**Before starting Phase 6**: Verify ALL prior phase outputs exist on disk:
+- `phase1_frontier/frontier.md` ✓
+- `phase2_survey/survey.md` ✓
+- `phase3_deep_dive/deep_dive.md` ✓
+- `phase4_code/code_repos.md` ✓
+- `phase5_synthesis/synthesis.md` + `gaps.md` ✓
+
+If ANY are missing, go back and complete the missing phase(s) first. Do NOT write a report based on incomplete research.
 
 ### Objective
 Assemble all research into a coherent, well-cited report.

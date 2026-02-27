@@ -20,6 +20,40 @@ This skill conducts systematic academic literature reviews in 6 phases, producin
 **Installation**: `~/.claude/skills/deep-research/` — scripts, references, and this skill definition.
 **Output**: `.//Users/lingzhi/Code/deep-research-output/{slug}/` relative to the current working directory.
 
+## CRITICAL: Strict Sequential Phase Execution
+
+**You MUST execute all 6 phases in strict order: 1 → 2 → 3 → 4 → 5 → 6. NEVER skip any phase.**
+
+This is the single most important rule of this skill. Violations include:
+- ❌ Jumping from Phase 2 to Phase 5/6 (skipping Deep Dive and Code)
+- ❌ Writing synthesis or report before completing Phase 3 deep reading
+- ❌ Producing a final report based only on abstracts/titles from search results
+- ❌ Combining or merging phases (e.g., doing "Phase 3-5 together")
+
+### Phase Gate Protocol
+
+Before starting Phase N+1, you MUST verify that Phase N's **required output files** exist on disk. If they don't exist, you have NOT completed that phase.
+
+| Phase | Gate: Required Output Files |
+|-------|---------------------------|
+| 1 → 2 | `phase1_frontier/frontier.md` exists AND contains ≥10 papers |
+| 2 → 3 | `phase2_survey/survey.md` exists AND `paper_db.jsonl` has 35-80 papers |
+| 3 → 4 | `phase3_deep_dive/selection.md` AND `phase3_deep_dive/deep_dive.md` exist AND deep_dive.md contains detailed notes for ≥8 papers |
+| 4 → 5 | `phase4_code/code_repos.md` exists AND contains ≥3 repositories |
+| 5 → 6 | `phase5_synthesis/synthesis.md` AND `phase5_synthesis/gaps.md` exist |
+
+**After completing each phase, print a phase completion checkpoint:**
+```
+✅ Phase N complete. Output: [list files written]. Proceeding to Phase N+1.
+```
+
+### Why Every Phase Matters
+
+- **Phase 3 (Deep Dive)** is where you actually READ papers — without it, your synthesis is superficial and based only on abstracts
+- **Phase 4 (Code & Tools)** grounds the research in practical implementations — without it, you miss the open-source ecosystem
+- **Phase 5 (Synthesis)** requires deep knowledge from Phase 3 — you cannot synthesize papers you haven't read
+- **Phase 6 (Report)** assembles content from ALL prior phases — it should cite specific findings from Phase 3 notes
+
 ## Paper Quality Policy
 
 **Peer-reviewed conference papers take priority over arXiv preprints.** Many arXiv papers have not undergone peer review and may contain unverified claims.
@@ -105,22 +139,55 @@ Build a comprehensive landscape with broader time range. Target **35-80 papers**
 5. Cluster by theme, write survey notes
 → Output: `phase2_survey/survey.md`, `phase2_survey/search_results/`, `paper_db.jsonl`
 
-### Phase 3: Deep Dive
-Select 8-15 papers. **Prefer peer-reviewed papers for deep reading.**
-Write selection rationale, then read fully and take structured notes.
+### Phase 3: Deep Dive ⚠️ DO NOT SKIP
+
+**This phase is MANDATORY.** You must actually READ 8-15 full papers, not just their abstracts.
+
+1. Select 8-15 papers from paper_db.jsonl with rationale → write `phase3_deep_dive/selection.md`
+2. Download PDFs: `python download_papers.py --jsonl paper_db.jsonl --output-dir phase3_deep_dive/papers/ --sort-by-citations --max-downloads 15`
+3. For EACH selected paper, read the full text (PDF via `Read` or HTML via `WebFetch` on ar5iv)
+4. Write detailed structured notes per paper (see note-format.md template): problem, contributions, methodology, experiments, limitations, connections
+5. Write ALL notes → `phase3_deep_dive/deep_dive.md`
+
+**Phase 3 Gate**: `deep_dive.md` must contain detailed notes for ≥8 papers, each with methodology and experiment sections filled in. Abstract-only summaries do NOT count.
+
 → Output: `phase3_deep_dive/selection.md`, `phase3_deep_dive/deep_dive.md`, `phase3_deep_dive/papers/`
 
-### Phase 4: Code & Tools
-Extract GitHub URLs, web search for implementations, benchmarks.
+### Phase 4: Code & Tools ⚠️ DO NOT SKIP
+
+**This phase is MANDATORY.** You must survey the open-source ecosystem.
+
+1. Extract GitHub URLs from papers read in Phase 3
+2. WebSearch for implementations: "site:github.com {method name}", "site:paperswithcode.com {topic}"
+3. For each repo found: record URL, stars, language, last updated, documentation quality
+4. Search for related benchmarks and datasets
+5. Write → `phase4_code/code_repos.md` (must contain ≥3 repositories)
+
+**Phase 4 Gate**: `code_repos.md` must exist and contain at least 3 repositories with metadata.
+
 → Output: `phase4_code/code_repos.md`
 
-### Phase 5: Synthesis
+### Phase 5: Synthesis (REQUIRES Phase 3 + 4 complete)
 Cross-paper analysis. **Weight peer-reviewed findings higher**.
+This phase MUST build on the detailed notes from Phase 3 and the code landscape from Phase 4.
 Taxonomy, comparative tables, gap analysis.
+
+**Before starting**: Verify `phase3_deep_dive/deep_dive.md` and `phase4_code/code_repos.md` exist. If not, go back and complete those phases first.
+
 → Output: `phase5_synthesis/synthesis.md`, `phase5_synthesis/gaps.md`
 
-### Phase 6: Compilation
-Assemble final report. Mark preprint citations with `(preprint)` suffix.
+### Phase 6: Compilation (REQUIRES Phase 1-5 complete)
+Assemble final report from ALL prior phase outputs. Mark preprint citations with `(preprint)` suffix.
+
+**Before starting**: Verify ALL phase outputs exist:
+- `phase1_frontier/frontier.md`
+- `phase2_survey/survey.md`
+- `phase3_deep_dive/deep_dive.md`
+- `phase4_code/code_repos.md`
+- `phase5_synthesis/synthesis.md` + `gaps.md`
+
+If ANY are missing, go back and complete the missing phase(s) first.
+
 → Output: `phase6_report/report.md`, `phase6_report/references.bib`
 
 ## Output Directory
